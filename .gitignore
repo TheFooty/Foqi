@@ -1,0 +1,16 @@
+# cad and 3d printing exports
+*.stl
+*.3mf
+*.gcode
+*.step
+*.iges
+
+# os files
+.DS_Store
+Thumbs.db
+
+# editor files
+*.swp
+*~
+.idea/
+.vscode/
