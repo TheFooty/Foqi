@@ -37,6 +37,7 @@ lid_tolerance = 0.4;
 tab_w = 22;
 tab_reach_y = 12;
 cage_tab_t = 8;
+hasp_ramp_h = 12;
 lid_cap_t = 3.5;
 plug_depth = 10;
 
@@ -88,7 +89,6 @@ module phone_jail_cage() {
             rounded_box(box_w, box_d, box_h, corner_r);
 
             // front padlock hasp tab with self supporting 45 degree ramp
-            hasp_ramp_h = 14;
             translate([box_w / 2 - tab_w / 2, -tab_reach_y, box_h - cage_tab_t - hasp_ramp_h]) {
                 hull() {
                     translate([0, tab_reach_y, 0])
@@ -139,9 +139,9 @@ module phone_jail_cage() {
                 pointed_slot_y(slot_w, bank_h, wall_t);
         }
 
-        // vertical padlock hole through cage tab
-        translate([box_w / 2, -tab_reach_y / 2, box_h - cage_tab_t - eps])
-            cylinder(d = lock_hole_d, h = cage_tab_t + 2 * eps);
+        // vertical padlock hole through cage tab and support ramp
+        translate([box_w / 2, -tab_reach_y / 2, box_h - cage_tab_t - hasp_ramp_h - eps])
+            cylinder(d = lock_hole_d, h = cage_tab_t + hasp_ramp_h + 2 * eps);
 
         // nfc card pocket
         if (nfc_slot_location == "side") {

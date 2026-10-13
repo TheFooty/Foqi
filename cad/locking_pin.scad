@@ -5,8 +5,10 @@ $fn = 60;
 // lock parameters matching foqi cage
 lock_hole_d = 6.5;
 cage_tab_t = 8;
+hasp_ramp_h = 12;
 lid_cap_t = 3.5;
-tab_stack_t = cage_tab_t + lid_cap_t;
+effective_cage_t = cage_tab_t + hasp_ramp_h / 2;
+tab_stack_t = effective_cage_t + lid_cap_t;
 
 // pin sizing
 pin_clearance = 0.6;
@@ -24,7 +26,7 @@ barb_ramp_h = 1.0;
 barb_lip_h = 0.6;
 entry_cone_h = 2.2;
 slot_w = 1.2;
-slot_h = 10;
+slot_h = 12;
 relief_d = 1.6;
 cross_hole_d = 2.2;
 
