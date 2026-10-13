@@ -123,7 +123,8 @@ Foqi/
     ├── v1_clearance_box.scad   # Iteration 1: Initial clearance volume
     ├── v2_notification_grille.scad # Iteration 2: Anti-touch viewing slots
     ├── v3_nfc_holster.scad     # Iteration 3: CR80 card dock and outrigger foot
-    └── foqi.scad               # Iteration 4: Master parametric modular production model
+    ├── foqi.scad               # Iteration 4: Master parametric modular production model
+    └── locking_pin.scad        # 3D-printable dual-action retention pin (hardware-free closure)
 ```
 
 ---

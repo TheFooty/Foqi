@@ -94,3 +94,24 @@ Documenting the chronological design, prototyping, and validation process of Foq
 5. **Padlock Tab Perimeter Reinforcement**: Root cause analysis of lid tab fracture revealed the 6.5 mm shackle hole breached the outer perimeter by 1.75 mm, producing an open notch with a sub-millimeter tip. Expanded tab depth to 13.0 mm and height to 22.0 mm, guaranteeing 3.25 mm solid plastic perimeters on front/back walls and a robust 9.75 mm solid bottom tip.
 6. **Closure Mechanism Kinematic Redesign (Drop-In Security Cap)**: Physical assembly evaluation revealed that horizontal sliding tracks were kinematically overconstrained by the fully enclosed perimeter walls. Redesigned closure into a precision Drop-In Cap featuring a 10 mm internal retention core and overlapping forward padlock eyelet tabs. The 10 mm core locks all planar translations ($X$ and $Y$), while the concentric vertical 6.5 mm shackle holes firmly constrain vertical lift ($Z$) when locked.
 
+---
+
+### Day 6 (Oct 24, 2026): Hardware-Free Closure & Dual-Action Locking Pin
+
+#### Objectives
+- Provide a completely 3D-printable, zero-hardware closure solution for the overlapping 6.5 mm eyelet tabs.
+- Enable quick push-to-lock retention for everyday focus sessions without requiring a metal padlock.
+- Maintain optional secondary tamper-resistant deadlocking.
+
+#### Kinematics & Mechanical Geometry
+- **Pin Shaft Clearance**: Sized at $\varnothing 5.9\text{ mm}$ for smooth clearance fit inside the $\varnothing 6.5\text{ mm}$ eyelets (total diametral clearance $0.6\text{ mm}$, preventing binding from layer seam artifacts).
+- **Tab Stack Sizing**: Sized to traverse the $11.5\text{ mm}$ combined tab stack ($8.0\text{ mm}$ cage tab + $3.5\text{ mm}$ lid tab) with $1.0\text{ mm}$ axial relief before the retention detent lands.
+- **Bifurcated Cantilever Snap Detent**:
+  - $1.2\text{ mm}$ central flex slot ($10.0\text{ mm}$ length) with $\varnothing 1.6\text{ mm}$ circular relief fillet at the root to dissipate notch stress.
+  - $45^\circ$ lead-in entry cone ($\varnothing 4.1\text{ mm}$ tip to $\varnothing 6.9\text{ mm}$ waist) for effortless press-fit entry.
+  - $26.5^\circ$ reverse camming ramp allowing intentional pull-to-release under deliberate finger force while preventing accidental dislodgement.
+- **Deadlock Cross-Pin Hole**: A transverse $\varnothing 2.2\text{ mm}$ cotter hole passes through the prongs beneath the cage tab. Inserting a cotter wire, paperclip, or wire tag physically prevents prong compression, deadlocking the pin against removal.
+- **Ergonomic Flanged Knob**: $\varnothing 14.0\text{ mm}$ head with scalloped perimeter grip flutes and a transverse $\varnothing 3.2\text{ mm}$ lanyard loop for tether cords or pull ribbons.
+- **DFAM & Print Orientation**: Prints upright with the flat head on the print bed. Zero support material required.
+
+
