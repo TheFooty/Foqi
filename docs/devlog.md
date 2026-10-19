@@ -54,3 +54,24 @@ Documenting the chronological design, prototyping, and validation process of Foq
   - Thickness: 1.0 mm + 0.6 mm clearance = 1.6 mm
 - **Thumb Ejection Mechanism**: An 18 mm circular cutout paired with a vertical slide channel allows the card to be ejected with a single upward thumb swipe.
 - **Outrigger Base Geometry**: Instead of floating the holster mid-air (which would require messy 3D printing supports), extending the holster down to Z=0 expands the desk footprint from 22 mm to 60.8 mm deep, solving center-of-gravity tipping issues while keeping prints 100% support-free.
+
+---
+
+### Day 4 (Oct 19, 2026): Modular Locking System & Print-Plate Optimization
+
+#### Objectives
+- Provide a physical lockout mechanism to prevent spontaneous removal of the phone.
+- Engineer sliding interlocks capable of withstanding physical prying.
+- Optimize component disposition for 1-click FDM batch printing.
+
+#### Kinematics & Mechanical Interlocks
+- **Sliding Lid Tracks**: Implemented horizontal T-slot / rail grooves inside the upper rim:
+  - Rail depth: 2.0 mm
+  - Rail height: 3.5 mm
+  - FDM printer clearance tolerance: 0.4 mm per side to ensure smooth gliding without binding or loose play.
+- **Padlock Hasp Alignment**:
+  - 6.5 mm shackle hole accommodates standard luggage, gym, or time-lock padlocks (Master Lock 140D standard shackle is ~6.0 mm).
+  - Front flange integrates a 45-degree under-chamfer, making it self-supporting during vertical printing.
+- **Print Disposition**:
+  - `part_to_render = "print_plate"` positions the Cage upright and inverts the Lid 180 degrees onto its flat top face.
+  - Zero support material required on any surface.
