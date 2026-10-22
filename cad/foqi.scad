@@ -77,13 +77,13 @@ module phone_jail_cage() {
         union() {
             rounded_box(box_w, box_d, box_h, corner_r);
 
-            // front padlock hasp flange
+            // front padlock hasp left flange
             translate([box_w / 2 - 12, -wall_t, box_h - 18]) {
                 difference() {
-                    cube([24, wall_t + eps, 18]);
+                    cube([11, wall_t + 2, 18]);
                     translate([-eps, 0, 0])
                         rotate([45, 0, 0])
-                            cube([24 + eps2, wall_t * 2, wall_t * 2]);
+                            cube([11 + eps2, wall_t * 2, wall_t * 2]);
                 }
             }
 
@@ -93,8 +93,8 @@ module phone_jail_cage() {
                 holster_d = nfc_pocket_w + 2 * wall_t;
                 holster_y = (box_d - holster_d) / 2;
 
-                translate([box_w - eps, holster_y, 0])
-                    rounded_box(holster_w, holster_d, box_h, corner_r);
+                translate([box_w - 0.5, holster_y, 0])
+                    rounded_box(holster_w + 0.5, holster_d, box_h, corner_r);
             }
 
             // base pedestal
@@ -184,23 +184,27 @@ module locking_lid() {
 
     difference() {
         union() {
+            // main plate
             rounded_box(lid_w, lid_d, lid_cap_t, corner_r);
 
+            // left and right guide rails with overlap
             translate([wall_t - rail_depth, wall_t + lid_tolerance, -rail_h])
-                cube([rail_depth, phone_d - 2 * lid_tolerance, rail_h]);
+                cube([rail_depth, phone_d - 2 * lid_tolerance, rail_h + eps]);
 
             translate([box_w - wall_t, wall_t + lid_tolerance, -rail_h])
-                cube([rail_depth, phone_d - 2 * lid_tolerance, rail_h]);
+                cube([rail_depth, phone_d - 2 * lid_tolerance, rail_h + eps]);
 
+            // inner retention block with overlap
             translate([wall_t + lid_tolerance, wall_t + lid_tolerance, -4.5])
-                rounded_box(phone_w - 2 * lid_tolerance, phone_d - 2 * lid_tolerance, 4.5, 1.5);
+                rounded_box(phone_w - 2 * lid_tolerance, phone_d - 2 * lid_tolerance, 4.5 + eps, 1.5);
 
-            translate([lid_w / 2 - 12, -wall_t, -18])
-                cube([24, wall_t, 18 + lid_cap_t]);
+            // front padlock tongue solidly integrated into main plate
+            translate([box_w / 2 + 1, -wall_t, -18])
+                cube([11, wall_t + 2, 18 + lid_cap_t]);
         }
 
         // matching padlock hole
-        translate([lid_w / 2, -wall_t / 2, -9])
+        translate([box_w / 2, -wall_t / 2, -9])
             rotate([0, 90, 0])
                 cylinder(d = lock_hole_d, h = 30, center = true);
 
