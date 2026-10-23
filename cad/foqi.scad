@@ -34,12 +34,11 @@ thumb_w = 18;
 // lock parameters
 lock_hole_d = 6.5;
 lid_tolerance = 0.4;
-tab_w = 12;
-tab_front_y = -11;
-tab_depth_y = 13;
-tab_h = 22;
-hole_center_y = -4.5;
-hole_center_z = -9;
+tab_w = 22;
+tab_reach_y = 12;
+cage_tab_t = 8;
+lid_cap_t = 3.5;
+plug_depth = 10;
 
 eps = 0.05;
 eps2 = 0.10;
@@ -88,14 +87,14 @@ module phone_jail_cage() {
         union() {
             rounded_box(box_w, box_d, box_h, corner_r);
 
-            // front padlock tab with thick reinforced base and 45 degree ramp
+            // front padlock hasp tab with self supporting 45 degree ramp
             hasp_ramp_h = 14;
-            translate([box_w / 2 - 13, tab_front_y, box_h - tab_h - hasp_ramp_h]) {
+            translate([box_w / 2 - tab_w / 2, -tab_reach_y, box_h - cage_tab_t - hasp_ramp_h]) {
                 hull() {
-                    translate([0, abs(tab_front_y), 0])
+                    translate([0, tab_reach_y, 0])
                         cube([tab_w, eps, eps]);
                     translate([0, 0, hasp_ramp_h])
-                        cube([tab_w, tab_depth_y, tab_h]);
+                        cube([tab_w, tab_reach_y + 2, cage_tab_t]);
                 }
             }
 
@@ -140,21 +139,9 @@ module phone_jail_cage() {
                 pointed_slot_y(slot_w, bank_h, wall_t);
         }
 
-        // padlock hole in cage centered with thick walls on all sides
-        translate([box_w / 2, hole_center_y, box_h + hole_center_z])
-            rotate([0, 90, 0])
-                cylinder(d = lock_hole_d, h = 35, center = true);
-
-        // top sliding track grooves
-        rail_depth = 2;
-        rail_h = 3.5;
-        rail_z = box_h - rail_h;
-
-        translate([wall_t - rail_depth, wall_t - eps, rail_z])
-            cube([rail_depth + eps, phone_d + eps, rail_h + eps]);
-
-        translate([box_w - wall_t, wall_t - eps, rail_z])
-            cube([rail_depth + eps, phone_d + eps, rail_h + eps]);
+        // vertical padlock hole through cage tab
+        translate([box_w / 2, -tab_reach_y / 2, box_h - cage_tab_t - eps])
+            cylinder(d = lock_hole_d, h = cage_tab_t + 2 * eps);
 
         // nfc card pocket
         if (nfc_slot_location == "side") {
@@ -193,41 +180,30 @@ module phone_jail_cage() {
     }
 }
 
-// sliding locking lid
+// drop in security lid
 module locking_lid() {
     lid_w = box_w;
     lid_d = box_d;
-    lid_cap_t = 3.5;
-    rail_depth = 2 - lid_tolerance;
-    rail_h = 3.5 - lid_tolerance;
 
     difference() {
         union() {
-            // main plate
+            // main top cap plate
             rounded_box(lid_w, lid_d, lid_cap_t, corner_r);
 
-            // left and right guide rails with overlap
-            translate([wall_t - rail_depth, wall_t + lid_tolerance, -rail_h])
-                cube([rail_depth, phone_d - 2 * lid_tolerance, rail_h + eps]);
+            // deep inner retention plug fits inside phone cavity
+            translate([wall_t + lid_tolerance, wall_t + lid_tolerance, -plug_depth])
+                rounded_box(phone_w - 2 * lid_tolerance, phone_d - 2 * lid_tolerance, plug_depth + eps, 1.5);
 
-            translate([box_w - wall_t, wall_t + lid_tolerance, -rail_h])
-                cube([rail_depth, phone_d - 2 * lid_tolerance, rail_h + eps]);
-
-            // inner retention block with overlap
-            translate([wall_t + lid_tolerance, wall_t + lid_tolerance, -4.5])
-                rounded_box(phone_w - 2 * lid_tolerance, phone_d - 2 * lid_tolerance, 4.5 + eps, 1.5);
-
-            // front padlock tongue with thick reinforced body and unbreakable tip
-            translate([box_w / 2 + 1, tab_front_y, -tab_h])
-                cube([tab_w, tab_depth_y, tab_h + lid_cap_t]);
+            // matching forward lock tab lands directly over cage tab
+            translate([box_w / 2 - tab_w / 2, -tab_reach_y, 0])
+                cube([tab_w, tab_reach_y + 2, lid_cap_t]);
         }
 
-        // matching padlock hole enclosed with thick solid walls on all sides
-        translate([box_w / 2, hole_center_y, hole_center_z])
-            rotate([0, 90, 0])
-                cylinder(d = lock_hole_d, h = 35, center = true);
+        // vertical matching padlock hole through lid tab
+        translate([box_w / 2, -tab_reach_y / 2, -eps])
+            cylinder(d = lock_hole_d, h = lid_cap_t + 2 * eps);
 
-        // finger grip
+        // finger grip indentation for easy lifting when unlocked
         translate([lid_w / 2, lid_d - 5, lid_cap_t + 8])
             sphere(r = 10);
     }
@@ -243,12 +219,12 @@ module nfc_card_preview() {
 if (part_to_render == "cage") {
     phone_jail_cage();
 } else if (part_to_render == "lid") {
-    translate([0, 0, 3.5])
+    translate([0, 0, lid_cap_t])
         rotate([180, 0, 0])
             locking_lid();
 } else if (part_to_render == "print_plate") {
     phone_jail_cage();
-    translate([box_w + 24, 0, 3.5])
+    translate([box_w + 24, 0, lid_cap_t])
         rotate([180, 0, 0])
             locking_lid();
 } else if (part_to_render == "assembly") {
