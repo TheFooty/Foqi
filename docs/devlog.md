@@ -78,17 +78,17 @@ Documenting the chronological design, prototyping, and validation process of Foq
 
 ---
 
-### Day 5 (Oct 22, 2026): Tolerance Verification, DFAM Finalization & Open-Source Release
+### Day 5 (Oct 22, 2026): Physical Prototype Testing & DFAM Failure Analysis
 
-#### Objectives
-- Perform final boolean artifact inspection (eliminating any non-manifold vertices).
-- Publish comprehensive engineering documentation, tolerance stackup analyses, and CAD build configurations.
+#### Observations & Failure Mode Diagnosis
+- Initial test print on a Bambu Lab A1 exhibited stringing/spaghetti extrusion near the top of the viewing grille ($Z \approx 135\text{ mm}$).
+- **Root Cause Analysis (Bed-Slinger Harmonic Oscillation)**: The Bambu Lab A1 bed-slinger translates the print bed along the $Y$-axis at high accelerations. The 123 mm tall, slender 3.0 mm vertical grille pillars had an aspect ratio $>40:1$, causing resonance vibration at high $Z$.
+- **Bridging Collapse**: When capping the 7 wobbly pillars simultaneously, nozzle contact deflection caused bridge failure and mid-air spaghetti extrusion.
+- **Clearance Feedback**: User testing revealed standard 16.0 mm cavity depth was overly snug for thick ruggedized protective phone cases.
 
-#### Verification & Outcomes
-- Audited all subtractive operations to confirm strict epsilon offset hygiene (`EPS = 0.05 mm`), guaranteeing zero coplanar face flicker or STL slice errors in Bambu Studio and PrusaSlicer.
-- Verified physical slide clearance on the modular locking lid at 0.4 mm.
-- Finalized multi-mode render controller:
-  - `"print_plate"` for production slicing.
-  - `"assembly"` with translucent preview of iPhone and CR80 card.
-  - `"cage"` and `"lid"` for individual component export.
-- Completed comprehensive design rationale and project documentation for open-source and university portfolio review.
+#### Engineering Countermeasures
+1. **Cavity Expansion**: Expanded internal compartment depth from 16.0 mm to **20.0 mm** and width from 82.0 mm to **85.0 mm**, accommodating thick bumper cases, wallet folios, and pop-sockets.
+2. **Dual-Bank Grille with Center Tie-Rib**: Introduced an 8.0 mm solid horizontal mid-rib dividing the grille into two 57.5 mm banks. This cuts unsupported column length in half, multiplying bending stiffness by $8\times$ ($2^3$) and eliminating bed oscillation.
+3. **Cathedral Arch Tops**: Redesigned slot ceilings with self-supporting 45-degree pointed arches (`pointed_slot_y`), eliminating horizontal bridging over mid-air.
+4. **Self-Supporting Tab Gusset**: Integrated a continuous 45-degree ramp beneath the front padlock hasp, removing all mid-air cantilevers for 100% support-free printing.
+

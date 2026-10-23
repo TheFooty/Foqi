@@ -62,8 +62,8 @@ All geometry is fully parameterized at the top of [`cad/foqi.scad`](cad/foqi.sca
 
 ```openscad
 // Phone Compartment Clearance
-phone_w = 82.0;    // Width clearance (X axis, mm)
-phone_d = 16.0;    // Depth clearance (Y axis, mm)
+phone_w = 85.0;    // Width clearance (X axis, mm)
+phone_d = 20.0;    // Depth clearance (Y axis, mm)
 phone_h = 155.0;   // Height clearance (Z axis, mm)
 
 // Wall & Floor Thickness

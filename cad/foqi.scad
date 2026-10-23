@@ -5,8 +5,8 @@ part_to_render = "print_plate";
 $fn = 60;
 
 // phone clearance
-phone_w = 82;
-phone_d = 16;
+phone_w = 85;
+phone_d = 20;
 phone_h = 155;
 
 // wall thickness
@@ -19,6 +19,7 @@ num_slots = 7;
 slot_w = 5.5;
 slot_bottom_clear = 14;
 slot_top_clear = 18;
+mid_rib_h = 8;
 
 // cr80 card parameters
 nfc_slot_location = "side";
@@ -58,8 +59,8 @@ module rounded_box(w, d, h, r) {
     }
 }
 
-// vertical pill slot through front face
-module pill_slot_y(width, height, depth) {
+// self supporting arch slot module
+module pointed_slot_y(width, height, depth) {
     r = width / 2;
     hull() {
         translate([0, -eps, r])
@@ -69,6 +70,11 @@ module pill_slot_y(width, height, depth) {
             rotate([-90, 0, 0])
                 cylinder(r = r, h = depth + 2 * eps);
     }
+    // pointed 45 degree top arch eliminates bridging
+    translate([0, -eps, height - r])
+        rotate([-90, 0, 0])
+            linear_extrude(height = depth + 2 * eps)
+                polygon([[-r, 0], [r, 0], [0, r]]);
 }
 
 // main cage body
@@ -77,13 +83,14 @@ module phone_jail_cage() {
         union() {
             rounded_box(box_w, box_d, box_h, corner_r);
 
-            // front padlock hasp left flange
-            translate([box_w / 2 - 12, -wall_t, box_h - 18]) {
-                difference() {
-                    cube([11, wall_t + 2, 18]);
-                    translate([-eps, 0, 0])
-                        rotate([45, 0, 0])
-                            cube([11 + eps2, wall_t * 2, wall_t * 2]);
+            // front padlock tab with self supporting 45 degree ramp
+            hasp_ramp_h = 16;
+            translate([box_w / 2 - 12, -wall_t, box_h - 18 - hasp_ramp_h]) {
+                hull() {
+                    translate([0, wall_t, 0])
+                        cube([11, eps, eps]);
+                    translate([0, 0, hasp_ramp_h])
+                        cube([11, wall_t + 2, 18]);
                 }
             }
 
@@ -109,16 +116,23 @@ module phone_jail_cage() {
         translate([wall_t, wall_t, floor_t])
             rounded_box(phone_w, phone_d, phone_h + 20, 2);
 
-        // viewing grille
-        slot_span_h = box_h - slot_top_clear - (floor_t + slot_bottom_clear);
+        // dual bank viewing grille with center anti vibration brace
+        total_slot_span = box_h - slot_top_clear - (floor_t + slot_bottom_clear);
+        bank_h = (total_slot_span - mid_rib_h) / 2;
         grille_margin_x = 10;
         available_w = box_w - 2 * grille_margin_x;
         step_x = (available_w - slot_w) / (num_slots - 1);
 
         for (i = [0 : num_slots - 1]) {
             x_pos = grille_margin_x + (i * step_x) + (slot_w / 2);
+
+            // lower bank
             translate([x_pos, 0, floor_t + slot_bottom_clear])
-                pill_slot_y(slot_w, slot_span_h, wall_t);
+                pointed_slot_y(slot_w, bank_h, wall_t);
+
+            // upper bank
+            translate([x_pos, 0, floor_t + slot_bottom_clear + bank_h + mid_rib_h])
+                pointed_slot_y(slot_w, bank_h, wall_t);
         }
 
         // padlock hole in cage
