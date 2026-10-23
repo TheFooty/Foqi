@@ -91,4 +91,5 @@ Documenting the chronological design, prototyping, and validation process of Foq
 2. **Dual-Bank Grille with Center Tie-Rib**: Introduced an 8.0 mm solid horizontal mid-rib dividing the grille into two 57.5 mm banks. This cuts unsupported column length in half, multiplying bending stiffness by $8\times$ ($2^3$) and eliminating bed oscillation.
 3. **Cathedral Arch Tops**: Redesigned slot ceilings with self-supporting 45-degree pointed arches (`pointed_slot_y`), eliminating horizontal bridging over mid-air.
 4. **Self-Supporting Tab Gusset**: Integrated a continuous 45-degree ramp beneath the front padlock hasp, removing all mid-air cantilevers for 100% support-free printing.
+5. **Padlock Tab Perimeter Reinforcement**: Root cause analysis of lid tab fracture revealed the 6.5 mm shackle hole breached the outer perimeter by 1.75 mm, producing an open notch with a sub-millimeter tip. Expanded tab depth to 13.0 mm and height to 22.0 mm, guaranteeing 3.25 mm solid plastic perimeters on front/back walls and a robust 9.75 mm solid bottom tip.
 

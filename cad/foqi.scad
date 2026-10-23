@@ -34,6 +34,12 @@ thumb_w = 18;
 // lock parameters
 lock_hole_d = 6.5;
 lid_tolerance = 0.4;
+tab_w = 12;
+tab_front_y = -11;
+tab_depth_y = 13;
+tab_h = 22;
+hole_center_y = -4.5;
+hole_center_z = -9;
 
 eps = 0.05;
 eps2 = 0.10;
@@ -70,7 +76,6 @@ module pointed_slot_y(width, height, depth) {
             rotate([-90, 0, 0])
                 cylinder(r = r, h = depth + 2 * eps);
     }
-    // pointed 45 degree top arch eliminates bridging
     translate([0, -eps, height - r])
         rotate([-90, 0, 0])
             linear_extrude(height = depth + 2 * eps)
@@ -83,14 +88,14 @@ module phone_jail_cage() {
         union() {
             rounded_box(box_w, box_d, box_h, corner_r);
 
-            // front padlock tab with self supporting 45 degree ramp
-            hasp_ramp_h = 16;
-            translate([box_w / 2 - 12, -wall_t, box_h - 18 - hasp_ramp_h]) {
+            // front padlock tab with thick reinforced base and 45 degree ramp
+            hasp_ramp_h = 14;
+            translate([box_w / 2 - 13, tab_front_y, box_h - tab_h - hasp_ramp_h]) {
                 hull() {
-                    translate([0, wall_t, 0])
-                        cube([11, eps, eps]);
+                    translate([0, abs(tab_front_y), 0])
+                        cube([tab_w, eps, eps]);
                     translate([0, 0, hasp_ramp_h])
-                        cube([11, wall_t + 2, 18]);
+                        cube([tab_w, tab_depth_y, tab_h]);
                 }
             }
 
@@ -135,10 +140,10 @@ module phone_jail_cage() {
                 pointed_slot_y(slot_w, bank_h, wall_t);
         }
 
-        // padlock hole in cage
-        translate([box_w / 2, -wall_t / 2, box_h - 9])
+        // padlock hole in cage centered with thick walls on all sides
+        translate([box_w / 2, hole_center_y, box_h + hole_center_z])
             rotate([0, 90, 0])
-                cylinder(d = lock_hole_d, h = 30, center = true);
+                cylinder(d = lock_hole_d, h = 35, center = true);
 
         // top sliding track grooves
         rail_depth = 2;
@@ -212,15 +217,15 @@ module locking_lid() {
             translate([wall_t + lid_tolerance, wall_t + lid_tolerance, -4.5])
                 rounded_box(phone_w - 2 * lid_tolerance, phone_d - 2 * lid_tolerance, 4.5 + eps, 1.5);
 
-            // front padlock tongue solidly integrated into main plate
-            translate([box_w / 2 + 1, -wall_t, -18])
-                cube([11, wall_t + 2, 18 + lid_cap_t]);
+            // front padlock tongue with thick reinforced body and unbreakable tip
+            translate([box_w / 2 + 1, tab_front_y, -tab_h])
+                cube([tab_w, tab_depth_y, tab_h + lid_cap_t]);
         }
 
-        // matching padlock hole
-        translate([box_w / 2, -wall_t / 2, -9])
+        // matching padlock hole enclosed with thick solid walls on all sides
+        translate([box_w / 2, hole_center_y, hole_center_z])
             rotate([0, 90, 0])
-                cylinder(d = lock_hole_d, h = 30, center = true);
+                cylinder(d = lock_hole_d, h = 35, center = true);
 
         // finger grip
         translate([lid_w / 2, lid_d - 5, lid_cap_t + 8])
